@@ -1,0 +1,3 @@
+**Probabilistic Ensemble Graph Neural Networks for Conformation-Aware Property Prediction.**
+
+Develop Graph Neural Networks (GNNs) that process an ensemble of molecular conformations (generated via RDKit) to learn a probabilistic latent representation of a molecule's conformational landscape. This latent representation is then used to predict a *distribution* of molecular properties rather than a single point estimate, providing physically consistent and uncertainty-aware predictions that explicitly account for molecular flexibility, leveraging PyTorch Geometric.
