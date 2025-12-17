@@ -1,5 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Dict
+from typing import Union
+from .mistral_llm_wrapper import MistralLLMWrapper
+from typing import Any, Optional
 
 class LLM(BaseModel):
     """LLM base model"""
@@ -9,6 +12,8 @@ class LLM(BaseModel):
     """Maximum output tokens allowed."""
     temperature: float | None
     """Temperature of the model."""
+    llm_instance: Optional[Any] = None
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 gemini20flash = LLM(name="gemini-2.0-flash",
                     max_output_tokens=8192,
@@ -80,6 +85,16 @@ claude41opus = LLM(name="claude-opus-4-1-20250805",
                    temperature=0)
 """`claude-4.1-Opus` model."""
 
+
+mistral_small = LLM(
+    name="mistral-small-latest",
+    max_output_tokens=8192,
+    temperature=0.7,
+)
+"""`mistral-small-latest` model."""
+
+# mistral_small.llm_instance = MistralLLMWrapper("mistral-small-latest")
+
 models : Dict[str, LLM] = {
                             "gemini-2.0-flash" : gemini20flash,
                             "gemini-2.5-flash" : gemini25flash,
@@ -95,5 +110,18 @@ models : Dict[str, LLM] = {
                             "claude-3.7-sonnet" : claude37sonnet,
                             "claude-4-opus" : claude4opus,
                             "claude-4.1-opus" : claude41opus,
+                            "mistral-small-latest" : mistral_small
                            }
 """Dictionary with the available models."""
+
+
+
+def llm_parser(llm: LLM | str):
+    """Return the model name or object as-is"""
+    if isinstance(llm, LLM):
+        return llm.name
+    elif isinstance(llm, str):
+        return llm
+    else:
+        raise ValueError(f"Unsupported LLM type: {type(llm)}")
+

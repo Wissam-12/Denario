@@ -17,15 +17,16 @@ def input_check(str_input: str) -> str:
         raise ValueError("Input must be a string or a path to a markdown file.")
     return content
 
-def llm_parser(llm: LLM | str) -> LLM:
+def llm_parser(llm: LLM | str) -> LLM | str:
     """Get the LLM instance from a string."""
-
     if isinstance(llm, str):
         try:
-            llm = models[llm]
+            llm = models[llm]  # existing model
         except KeyError:
-            raise KeyError(f"LLM '{llm}' not available. Please select from: {list(models.keys())}")
+            # If it's not in models (like Mistral HF repo), return the string
+            return llm
     return llm
+
 
 def extract_file_paths(markdown_text):
     """

@@ -389,17 +389,33 @@ class Denario:
         f_data_description = os.path.join(self.project_dir, INPUT_FILES, DESCRIPTION_FILE)
 
         # Initialize the state
+        # input_state = {
+        #     "task": "idea_generation",
+        #     "files":{"Folder": self.project_dir,
+        #              "data_description": f_data_description}, #name of project folder
+        #     "llm": {"model": llm.name,                #name of the LLM model to use
+        #             "temperature": llm.temperature,
+        #             "max_output_tokens": llm.max_output_tokens,
+        #             "stream_verbose": verbose},
+        #     "keys": self.keys,
+        #     "idea": {"total_iterations": iterations},
+        # }
+
         input_state = {
             "task": "idea_generation",
-            "files":{"Folder": self.project_dir,
-                     "data_description": f_data_description}, #name of project folder
-            "llm": {"model": llm.name,                #name of the LLM model to use
-                    "temperature": llm.temperature,
-                    "max_output_tokens": llm.max_output_tokens,
-                    "stream_verbose": verbose},
+            "files": {"Folder": self.project_dir,
+                      "data_description": f_data_description},
+            "llm": {
+                "llm": getattr(llm, "llm_instance", None),
+                "model": llm.name,
+                "temperature": llm.temperature,
+                "max_output_tokens": llm.max_output_tokens,
+                "stream_verbose": verbose
+            },
             "keys": self.keys,
             "idea": {"total_iterations": iterations},
         }
+
         
         # Run the graph
         graph.invoke(input_state, config) # type: ignore

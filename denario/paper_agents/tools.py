@@ -8,7 +8,8 @@ from .prompts import fixer_prompt, LaTeX_prompt
 from .parameters import GraphState
 from .journal import LatexPresets
 from .latex_presets import journal_dict
-
+from denario.mistral_llm_wrapper import MistralLLMWrapper
+from denario.llm import models 
 
 def LLM_call(prompt, state):
     """
@@ -30,39 +31,56 @@ def LLM_call(prompt, state):
     return state, message.content
 
 
+
 def LLM_call_stream(prompt, state):
     """
     Calls the LLM with streaming enabled and writes output to file in real-time.
     Also updates token usage tracking.
     """
+
+    if not isinstance(prompt, str):
+        prompt = str(prompt)
+
+    llm_config = state['llm']
+    model_name = llm_config['model']
+
+    # Instantiate the LLM based on the model name
+    if model_name.startswith("mistral"):  
+        llm_instance = MistralLLMWrapper(model_name)
+    else:
+        # Use the existing Gemini (or other) wrapper
+        llm_instance = models[model_name]  
+
     output_file_path = state['files']['f_stream']
-    
-    # Start streaming and writing/printing immediately
+
     full_content = ''
     state['tokens']['i'] = 0
     state['tokens']['o'] = 0
+
     with open(output_file_path, 'a') as f:
-        for chunk in state['llm']['llm'].stream(prompt):
+        for chunk in llm_instance.stream(prompt):
             text = chunk.content
             f.write(text)
-            f.flush()  # Immediate file write
-            if state['llm']['stream_verbose']:
-                print(text, end='', flush=True)  # Immediate terminal output
+            f.flush()
+            if llm_config['stream_verbose']:
+                print(text, end='', flush=True)
             full_content += text
 
-            # After streaming, get token usage
-            usage = chunk.usage_metadata if hasattr(chunk, 'usage_metadata') else None
+            # Token accounting
+            usage = getattr(chunk, 'usage_metadata', None)
             if usage:
                 input_tokens = usage.get('input_tokens', 0)
                 output_tokens = usage.get('output_tokens', 0)
-                if output_tokens > state['llm']['max_output_tokens']:
+                if output_tokens > llm_config['max_output_tokens']:
                     print('WARNING!! Max output tokens reached!')
 
                 state['tokens']['ti'] += input_tokens
                 state['tokens']['to'] += output_tokens
                 state['tokens']['i'] += input_tokens
                 state['tokens']['o'] += output_tokens
+
         f.write('\n\n')
+
     with open(state['files']['LLM_calls'], 'a') as f:
         f.write(f"{state['tokens']['i']} {state['tokens']['o']} {state['tokens']['ti']} {state['tokens']['to']}\n")
 

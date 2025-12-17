@@ -1,3 +1,4 @@
-**Probabilistic Ensemble Graph Neural Networks for Conformation-Aware Property Prediction.**
+**Title: Cognitive Load and Motor Performance: A Cross-Domain Comparison of Dual-Task Interference**
 
-Develop Graph Neural Networks (GNNs) that process an ensemble of molecular conformations (generated via RDKit) to learn a probabilistic latent representation of a molecule's conformational landscape. This latent representation is then used to predict a *distribution* of molecular properties rather than a single point estimate, providing physically consistent and uncertainty-aware predictions that explicitly account for molecular flexibility, leveraging PyTorch Geometric.
+**Description:**
+Analyze how different types of intellectual tasks (numerical, sequential, verbal) and their difficulty levels (easy vs. difficult) influence motor performance (circle-drawing precision and consistency). Compare motor variability metrics (e.g., radius deviation, path smoothness) across task types and difficulties, and correlate these with subjective ratings of effort and perceived difficulty. This will reveal which cognitive domains most disrupt motor control and whether subjective experience aligns with objective performance.

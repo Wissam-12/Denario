@@ -14,11 +14,12 @@ def test_idea_fast():
 
     # --- Initialize research object ---
     research = Research(
-        topic="Graph neural networks for molecular property prediction",
-        domain="Machine Learning / Drug Discovery",
+        topic="Motor and cognitive task analysis using circle drawing data",
+        domain="Cognitive Science / Human-Computer Interaction",
         objectives=[
-            "Propose a novel GNN architecture",
-            "Improve performance on molecular benchmarks"
+            "Analyze the relation between cognitive task type and motor behavior",
+            "Investigate perceived difficulty vs actual performance",
+            "Correlate trace patterns with task difficulty and effort"
         ]
     )
 
@@ -31,13 +32,15 @@ def test_idea_fast():
 
 
     data_description_content = """
-    # Data Description
+    We have conducted an experiment where a group of 40 participants performed
+    3 different types of intellectual tasks (numerical, sequential, and verbal)
+    while drawing circles with their dominant hand on a tablet during two minutes.
+    For each task type there was an easy and a difficult variant, giving a total
+    of 6 tasks per participant. Participants answered a questionnaire about effort
+    and perceived difficulty. The data is in data-from-trials.xlsx, and the
+    circle traces are in CSV files in input_files/.
 
-    This project uses molecular datasets to train and evaluate graph neural networks.
-
-    ## Tools
-    - PyTorch Geometric
-    - RDKit
+    Which research questions could you answer with this data?
     """
     denario.set_data_description(data_description_content)
 
@@ -45,14 +48,14 @@ def test_idea_fast():
     # --- Run idea generation (FAST MODE) ---
     denario.get_idea(
         mode="fast",
-        llm=models["gemini-2.5-flash"],
+        llm=models["mistral-small-latest"], 
     )
 
     # --- Basic assertions ---
     input_dir = os.path.join(project_dir, "input_files")
     assert os.path.exists(input_dir), "input_files folder not created"
 
-    print("\n Idea module (fast mode) executed successfully")
+    print("\nIdea module (fast mode) executed successfully")
 
 
 if __name__ == "__main__":
