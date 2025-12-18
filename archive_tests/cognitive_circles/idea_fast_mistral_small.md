@@ -1,0 +1,3 @@
+**Research Question:** How do temporal dynamics of kinematic features in hand-drawn circles (e.g., changes in speed, acceleration, and jerk over time) reflect the evolution of cognitive load and task performance during prolonged cognitive tasks?
+
+**Description:** Analyze the time-series data of circle-drawing traces to extract kinematic features at multiple time intervals (e.g., early vs. late phases of the 2-minute task). Correlate these temporal patterns with subjective workload (perceived mental demand) and objective performance (progress, mistakes) to identify how motor behavior adapts to sustained cognitive demands. This could reveal whether motor-cognitive coupling strengthens or weakens over time, offering insights into fatigue or adaptation mechanisms.

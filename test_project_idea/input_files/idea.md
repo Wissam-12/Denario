@@ -1,4 +1,0 @@
-**Title: Cognitive Load and Motor Performance: A Cross-Domain Comparison of Dual-Task Interference**
-
-**Description:**
-Analyze how different types of intellectual tasks (numerical, sequential, verbal) and their difficulty levels (easy vs. difficult) influence motor performance (circle-drawing precision and consistency). Compare motor variability metrics (e.g., radius deviation, path smoothness) across task types and difficulties, and correlate these with subjective ratings of effort and perceived difficulty. This will reveal which cognitive domains most disrupt motor control and whether subjective experience aligns with objective performance.

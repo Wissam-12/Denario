@@ -5,6 +5,7 @@ import cmbagent
 from .key_manager import KeyManager
 from .prompts.idea import idea_planner_prompt
 from .utils import create_work_dir, get_task_result
+from .llm import LLM, models
 
 class Idea:
     """
@@ -57,6 +58,8 @@ class Idea:
         Args:
             data_description: description of the data and tools to be used.
         """
+        print("coucooooou")
+        input()
         
         results = cmbagent.planning_and_control_context_carryover(data_description,
                               n_plan_reviews = 1,
@@ -69,9 +72,14 @@ class Idea:
                               work_dir = self.idea_dir,
                               api_keys = self.api_keys,
                               default_llm_model = self.orchestration_model,
-                              default_formatter_model = self.formatter_model
+                              default_formatter_model = self.formatter_model,
+                              engineer_model = models["mistral-small-latest"], 
+                              researcher_model = models["mistral-small-latest"], 
+                              camb_context_model = models["mistral-small-latest"], 
+                              plot_judge_model = models["mistral-small-latest"], 
                              )
-
+        
+                        
         chat_history = results['chat_history']
         
         try:
